@@ -20,13 +20,25 @@ document.getElementById("csvFile").addEventListener("change", function (e) {
   }
 });
 
-document.getElementById("searchBtn").addEventListener("click", function () {
-  const searchText = document.getElementById("searchInput").value.toLowerCase();
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+
+function aplicarFiltro() {
+  const searchText = searchInput.value.toLowerCase();
   filteredData = originalData.filter(row =>
     (row["Productos"] || "").toLowerCase().includes(searchText)
   );
   renderTable(filteredData);
+}
+
+searchBtn.addEventListener("click", aplicarFiltro);
+
+searchInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    aplicarFiltro();
+  }
 });
+
 
 document.getElementById("exportBtn").addEventListener("click", function () {
   if (filteredData.length === 0) {
