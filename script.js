@@ -63,20 +63,27 @@ function renderTable(data) {
   const headers = Object.keys(data[0]);
   const thead = document.createElement("thead");
   const headerRow = document.createElement("tr");
-
   headers.forEach(h => {
     const th = document.createElement("th");
     th.textContent = h;
+    th.classList.add("header-cell"); // 🎨 clase para el estilo
     headerRow.appendChild(th);
   });
-
   thead.appendChild(headerRow);
   table.appendChild(thead);
 
   const tbody = document.createElement("tbody");
-
   data.forEach(row => {
     const tr = document.createElement("tr");
+
+    // 🎯 Pintar según estado
+    const estado = (row["Estado"] || "").toLowerCase();
+    if (estado === "quiebre") {
+      tr.classList.add("quiebre-row");
+    } else if (estado === "sobrestock") {
+      tr.classList.add("sobrestock-row");
+    }
+
     headers.forEach(h => {
       const td = document.createElement("td");
       td.textContent = row[h] ?? "";
@@ -84,6 +91,5 @@ function renderTable(data) {
     });
     tbody.appendChild(tr);
   });
-
   table.appendChild(tbody);
 }

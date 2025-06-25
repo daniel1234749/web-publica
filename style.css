@@ -71,3 +71,20 @@ th {
   top: 0;
   z-index: 1;
 }
+/* Encabezados */
+.header-cell {
+  background-color: #dce3f2;
+  font-weight: bold;
+}
+
+/* 🔴 Quiebre */
+.quiebre-row {
+  background-color: #ec372e;
+  color: white;
+}
+
+/* 🔵 Sobrestock */
+.sobrestock-row {
+  background-color: #0275d8;
+  color: white;
+}
