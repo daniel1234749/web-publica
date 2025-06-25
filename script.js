@@ -39,7 +39,6 @@ searchInput.addEventListener("keydown", function (event) {
   }
 });
 
-
 document.getElementById("exportBtn").addEventListener("click", function () {
   if (filteredData.length === 0) {
     alert("No hay datos para exportar.");
@@ -64,15 +63,18 @@ function renderTable(data) {
   const headers = Object.keys(data[0]);
   const thead = document.createElement("thead");
   const headerRow = document.createElement("tr");
+
   headers.forEach(h => {
     const th = document.createElement("th");
     th.textContent = h;
     headerRow.appendChild(th);
   });
+
   thead.appendChild(headerRow);
   table.appendChild(thead);
 
   const tbody = document.createElement("tbody");
+
   data.forEach(row => {
     const tr = document.createElement("tr");
     headers.forEach(h => {
@@ -82,5 +84,6 @@ function renderTable(data) {
     });
     tbody.appendChild(tr);
   });
+
   table.appendChild(tbody);
 }
