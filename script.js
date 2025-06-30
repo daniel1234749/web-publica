@@ -9,7 +9,14 @@ document.getElementById("csvFile").addEventListener("change", function (e) {
       skipEmptyLines: true,
       complete: function (results) {
         originalData = results.data;
-        filteredData = [...originalData];
+
+        // 🔽 Ordenar por vtatucu (ventas Tucumán) de mayor a menor
+        filteredData = [...originalData].sort((a, b) => {
+          const vtaA = parseInt(a["vtatucu"] || "0");
+          const vtaB = parseInt(b["vtatucu"] || "0");
+          return vtaB - vtaA;
+        });
+
         document.getElementById("filterSection").style.display = "flex";
         renderTable(filteredData);
       },
@@ -25,9 +32,16 @@ const searchBtn = document.getElementById("searchBtn");
 
 function aplicarFiltro() {
   const searchText = searchInput.value.toLowerCase();
-  filteredData = originalData.filter(row =>
-    (row["Productos"] || "").toLowerCase().includes(searchText)
-  );
+  filteredData = originalData
+    .filter(row =>
+      (row["Productos"] || "").toLowerCase().includes(searchText)
+    )
+    .sort((a, b) => {
+      const vtaA = parseInt(a["vtatucu"] || "0");
+      const vtaB = parseInt(b["vtatucu"] || "0");
+      return vtaB - vtaA;
+    });
+
   renderTable(filteredData);
 }
 
@@ -66,7 +80,7 @@ function renderTable(data) {
   headers.forEach(h => {
     const th = document.createElement("th");
     th.textContent = h;
-    th.classList.add("header-cell"); // 🎨 clase para el estilo
+    th.classList.add("header-cell");
     headerRow.appendChild(th);
   });
   thead.appendChild(headerRow);
@@ -75,8 +89,6 @@ function renderTable(data) {
   const tbody = document.createElement("tbody");
   data.forEach(row => {
     const tr = document.createElement("tr");
-
-    // 🎯 Pintar según estado
     const estado = (row["Estado"] || "").toLowerCase();
     if (estado === "quiebre") {
       tr.classList.add("quiebre-row");
