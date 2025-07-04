@@ -89,3 +89,9 @@ th {
   background-color: #0275d8;
   color: white;
 }
+/* 🟢 Comprar */
+.comprar-cell {
+  background-color: #c7f8c7; /* verde claro */
+  font-weight: bold;
+  color: #2e7d32; /* verde oscuro */
+}

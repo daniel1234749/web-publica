@@ -12,8 +12,8 @@ document.getElementById("csvFile").addEventListener("change", function (e) {
 
         // 🔽 Ordenar por vtatucu (ventas Tucumán) de mayor a menor
         filteredData = [...originalData].sort((a, b) => {
-          const vtaA = parseInt(a["vtatucu"] || "0");
-          const vtaB = parseInt(b["vtatucu"] || "0");
+          const vtaA = parseFloat(a["vtatucu"] || "0");
+          const vtaB = parseFloat(b["vtatucu"] || "0");
           return vtaB - vtaA;
         });
 
@@ -37,8 +37,8 @@ function aplicarFiltro() {
       (row["Productos"] || "").toLowerCase().includes(searchText)
     )
     .sort((a, b) => {
-      const vtaA = parseInt(a["vtatucu"] || "0");
-      const vtaB = parseInt(b["vtatucu"] || "0");
+      const vtaA = parseFloat(a["vtatucu"] || "0");
+      const vtaB = parseFloat(b["vtatucu"] || "0");
       return vtaB - vtaA;
     });
 
@@ -90,6 +90,7 @@ function renderTable(data) {
   data.forEach(row => {
     const tr = document.createElement("tr");
     const estado = (row["Estado"] || "").toLowerCase();
+
     if (estado === "quiebre") {
       tr.classList.add("quiebre-row");
     } else if (estado === "sobrestock") {
@@ -98,10 +99,20 @@ function renderTable(data) {
 
     headers.forEach(h => {
       const td = document.createElement("td");
-      td.textContent = row[h] ?? "";
+      const cellValue = row[h] ?? "";
+
+      td.textContent = cellValue;
+
+      // ✅ Pintar de verde si la celda es "Comprar"
+      if (h.toLowerCase() === "estado" && cellValue.toLowerCase() === "comprar") {
+        td.classList.add("comprar-cell");
+      }
+
       tr.appendChild(td);
     });
+
     tbody.appendChild(tr);
   });
+
   table.appendChild(tbody);
 }
