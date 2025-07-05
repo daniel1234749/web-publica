@@ -90,6 +90,7 @@ function renderTable(data) {
   data.forEach(row => {
     const tr = document.createElement("tr");
     const estado = (row["Estado"] || "").toLowerCase();
+    const esComprar = estado === "comprar";
 
     if (estado === "quiebre") {
       tr.classList.add("quiebre-row");
@@ -100,12 +101,18 @@ function renderTable(data) {
     headers.forEach(h => {
       const td = document.createElement("td");
       const cellValue = row[h] ?? "";
-
       td.textContent = cellValue;
 
-      // ✅ Pintar de verde si la celda es "Comprar"
-      if (h.toLowerCase() === "estado" && cellValue.toLowerCase() === "comprar") {
+      if (h.toLowerCase() === "estado" && esComprar) {
         td.classList.add("comprar-cell");
+      }
+
+      if (esComprar && (
+        h.toLowerCase() === "productos" ||
+        h.toLowerCase() === "vtatucu" ||
+        h.toLowerCase() === "tucuman"
+      )) {
+        td.classList.add("resaltar-comprar");
       }
 
       tr.appendChild(td);
